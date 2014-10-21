@@ -744,6 +744,7 @@
 				endMonth = this.o.endDate !== Infinity ? this.o.endDate.getUTCMonth() : Infinity,
 				todaytxt = dates[this.o.language].today || dates['en'].today || '',
 				cleartxt = dates[this.o.language].clear || dates['en'].clear || '',
+				closetxt = dates[this.o.language].close || dates['en'].close || '',
 				tooltip;
 			this.picker.find('.datepicker-days thead th.datepicker-switch')
 						.text(dates[this.o.language].months[month]+' '+year);
@@ -753,6 +754,9 @@
 			this.picker.find('tfoot th.clear')
 						.text(cleartxt)
 						.toggle(this.o.clearBtn !== false);
+			this.picker.find('tfoot th.datepicker-close')
+                        .text(closetxt)
+                        .toggle(this.o.closeBtn !== false);
 			this.updateNavArrows();
 			this.fillMonths();
 			var prevMonth = UTCDate(year, month-1, 28),
@@ -949,6 +953,9 @@
 								if (this.o.autoclose)
 									this.hide();
 								break;
+							case 'datepicker-close':
+                                this.hide();
+                                break;
 						}
 						break;
 					case 'span':
@@ -1408,7 +1415,8 @@
 		startView: 0,
 		todayBtn: false,
 		todayHighlight: false,
-		weekStart: 0
+		weekStart: 0,
+		closeBtn: false
 	};
 	var locale_opts = $.fn.datepicker.locale_opts = [
 		'format',
@@ -1424,7 +1432,8 @@
 			months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
 			monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
 			today: "Today",
-			clear: "Clear"
+			clear: "Clear",
+			close: "Close"
 		}
 	};
 
@@ -1605,6 +1614,9 @@
 						'</thead>',
 		contTemplate: '<tbody><tr><td colspan="7"></td></tr></tbody>',
 		footTemplate: '<tfoot>'+
+							'<tr>'+
+                                '<th colspan="14" class="datepicker-close"></th>' +
+                            '</tr>'+
 							'<tr>'+
 								'<th colspan="7" class="today"></th>'+
 							'</tr>'+
